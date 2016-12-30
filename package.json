@@ -1,7 +1,7 @@
 {
-  "name": "react-redux-starter-kit",
-  "version": "3.0.0-alpha.2",
-  "description": "Get started with React, Redux, and React-Router!",
+  "name": "hangman",
+  "version": "0.0.1",
+  "description": "hangman test",
   "main": "index.js",
   "engines": {
     "node": ">=4.5.0",
@@ -71,9 +71,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davezuko/react-redux-starter-kit.git"
+    "url": "git+https://github.com/rainbowland302/hangman.git"
   },
-  "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
+  "author": "Andrew Zhang <junhao_zhang302@126.com>",
   "license": "MIT",
   "dependencies": {
     "babel-core": "^6.17.0",
