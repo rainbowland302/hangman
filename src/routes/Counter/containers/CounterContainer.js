@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { increment, doubleAsync } from '../modules/counter'
+import { startGame, nextWord, guessWord, getResult } from '../modules/counter'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -13,12 +13,15 @@ import Counter from '../components/Counter'
     implementing our wrapper around increment; the component doesn't care   */
 
 const mapDispatchToProps = {
-  increment : () => increment(1),
-  doubleAsync
+  startGame,
+  nextWord,
+  guessWord,
+  getResult
 }
 
 const mapStateToProps = (state) => ({
-  counter : state.counter
+  playerId : state.playerId || '',
+  words: state.counter
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:

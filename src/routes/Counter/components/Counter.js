@@ -1,22 +1,43 @@
 import React from 'react'
+import RaisedButton from 'material-ui/RaisedButton';
+import {Row, Col} from 'react-flexbox-grid';
+
+import WordChip from '../../../components/WordChip';
 
 export const Counter = (props) => (
-  <div style={{ margin: '0 auto' }} >
-    <h2>Counter: {props.counter}</h2>
-    <button className='btn btn-default' onClick={props.increment}>
-      Increment
-    </button>
-    {' '}
-    <button className='btn btn-default' onClick={props.doubleAsync}>
-      Double (Async)
-    </button>
+  <div>
+    <h2>Player Id: {props.playerId}</h2>
+    <Row>
+      <RaisedButton
+        label="Start Game"
+        onClick={props.startGame}
+      />
+      <RaisedButton
+        label="Next Word"
+        primary={true}
+        onClick={props.nextWord}
+      />
+      <RaisedButton
+        label="Guess Word"
+        secondary={true}
+        onClick={props.guessWord}
+      />
+      <RaisedButton
+        label="Get Result"
+        onClick={props.getResult}
+      />
+    </Row>
+    <WordChip words={props.words} />
   </div>
 )
 
 Counter.propTypes = {
-  counter     : React.PropTypes.number.isRequired,
-  doubleAsync : React.PropTypes.func.isRequired,
-  increment   : React.PropTypes.func.isRequired
+  playerId: React.PropTypes.number.isRequired,
+  startGame: React.PropTypes.func.isRequired,
+  nextWord: React.PropTypes.func.isRequired,
+  guessWord: React.PropTypes.func.isRequired,
+  getResult: React.PropTypes.func.isRequired,
+  words: React.PropTypes.array.isRequired
 }
 
 export default Counter

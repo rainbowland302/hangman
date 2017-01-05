@@ -1,56 +1,89 @@
+import { createAction } from 'redux-actions';
+
+//const url = 'http://www.domain-name.com/game/on';
+const url = 'http://localhost:3003/api/';
+
+const gameFetch = async function(payload, route) {
+  const response = await fetch(url+route, {
+    method: 'GET',
+    header: {
+      'Content-Type': 'application/json'
+    },
+    //body: JSON.stringify(payload)
+  });
+  const res = await response.json();
+  return res;
+}
+
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const COUNTER_INCREMENT = 'COUNTER_INCREMENT'
-export const COUNTER_DOUBLE_ASYNC = 'COUNTER_DOUBLE_ASYNC'
+export const START_GAME = 'START_GAME';
+export const NEXT_WORD = 'NEXT_WORD';
+export const GUESS_WORD = 'GUESS_WORD';
+export const GET_RESULT = 'GET_RESULT';
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function increment (value = 1) {
-  return {
-    type    : COUNTER_INCREMENT,
-    payload : value
+export const startGame = createAction(START_GAME, async playerID => {
+  const payload = {
+    playerId: playerID,
+    action : "startGame"
   }
-}
+  const result = await gameFetch(payload, 'start-game');
+  return result.data;
+});
 
-/*  This is a thunk, meaning it is a function that immediately
-    returns a function for lazy evaluation. It is incredibly useful for
-    creating async actions, especially when combined with redux-thunk! */
-
-export const doubleAsync = () => {
-  return (dispatch, getState) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        dispatch({
-          type    : COUNTER_DOUBLE_ASYNC,
-          payload : getState().counter
-        })
-        resolve()
-      }, 200)
-    })
+export const nextWord = createAction(NEXT_WORD, async sessionId => {
+  const payload = {
+    sessionId: sessionId,
+    action: 'nextWord'
   }
-}
+  const result = await gameFetch(payload, 'next-word');
+  return await result.data;
+});
+
+export const guessWord = createAction(GUESS_WORD, async ({guess, sessionId}) => {
+  const payload = {
+    sessionId: sessionId,
+    action: "guessWord",
+    guess: guess
+  };
+  const result = await gameFetch(payload, 'guess-word');
+  return result.data;
+});
+
+export const getResult = createAction(GET_RESULT, async sessionId => {
+  const payload = {
+    sessionId: sessionId,
+    action: "getResult",
+  };
+  const result = await gameFetch(payload, 'get-result');
+  return result;
+});
 
 export const actions = {
-  increment,
-  doubleAsync
+  startGame,
+  nextWord,
+  guessWord,
+  getResult
 }
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [COUNTER_INCREMENT]    : (state, action) => state + action.payload,
-  [COUNTER_DOUBLE_ASYNC] : (state, action) => state * 2
+  [NEXT_WORD]: (state, action) => [...state, action.payload],
+  [GUESS_WORD]: (state, action) => [...state.slice(0, state.length - 1), action.payload]
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = 0
+const initialState = [];
 export default function counterReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
-
+  console.log(state);
   return handler ? handler(state, action) : state
 }
