@@ -1,0 +1,35 @@
+{
+  "start-game": {
+    "message": "THE GAME IS ON",
+    "sessionId": "04ccda515d152cbe630e156af9095104",
+    "data": {
+      "numberOfWordsToGuess": 80,
+      "numberOfGuessAllowedForEachWord": 10
+    }
+  },
+  "next-word": {
+    "sessionId": "3f0421bb5cb56631c170a35da90161d2",
+    "data": {
+      "word": "*****",
+      "totalWordCount": 1,
+      "wrongGuessCountOfCurrentWord": 0
+    }
+  },
+  "guess-word": {
+    "sessionId": "3f0421bb5cb56631c170a35da90161d2",
+    "data": {
+      "word": "HAPPY",
+      "totalWordCount": 1,
+      "wrongGuessCountOfCurrentWord": 0
+    }
+  },
+  "get-result": {
+    "sessionId": "3f0421bb5cb56631c170a35da90161d2",
+    "data": {
+      "totalWordCount": 40,
+      "correctWordCount": 20,
+      "totalWrongGuessCount": 100,
+      "score": 300
+    }
+  }
+}
