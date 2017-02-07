@@ -1,29 +1,29 @@
 import React from 'react'
-import Avatar from 'material-ui/Avatar';
-import Chip from 'material-ui/Chip';
-import IconDone from 'material-ui/svg-icons/action/done';
-import IconClose from 'material-ui/svg-icons/navigation/close';
-import {greenA400, redA100} from 'material-ui/styles/colors';
+import Avatar from 'material-ui/Avatar'
+import Chip from 'material-ui/Chip'
+import IconDone from 'material-ui/svg-icons/action/done'
+import IconClose from 'material-ui/svg-icons/navigation/close'
+import { greenA400, redA100 } from 'material-ui/styles/colors'
 
 import './WordChip.scss'
 
 const styles = {
   chip: {
-    margin: 4,
+    margin: 4
   },
   wrapper: {
     display: 'flex',
-    flexWrap: 'wrap',
-  },
-};
+    flexWrap: 'wrap'
+  }
+}
 
 function checkWord(str) {
-  const reg = /\*/;
-  return !reg.test(str);
+  const reg = /\*/
+  return !reg.test(str)
 }
 
 function getWord(data) {
-  let word = data.word;
+  let word = data.word
   return (
     <Chip style={styles.chip}>
       {
@@ -32,7 +32,7 @@ function getWord(data) {
       }
       {word}
     </Chip>
-  );
+  )
 }
 
 export const WordChip = (props) => {

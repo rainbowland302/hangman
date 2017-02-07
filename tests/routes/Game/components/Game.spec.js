@@ -1,34 +1,34 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
-import { Counter } from 'routes/Counter/components/Counter'
+import { Game } from 'routes/Game/components/Game'
 import { shallow } from 'enzyme'
 
-describe('(Component) Counter', () => {
+describe('(Component) Game', () => {
   let _props, _spies, _wrapper
 
   beforeEach(() => {
     _spies = {}
     _props = {
-      counter : 5,
+      game : 5,
       ...bindActionCreators({
         doubleAsync : (_spies.doubleAsync = sinon.spy()),
         increment   : (_spies.increment = sinon.spy())
       }, _spies.dispatch = sinon.spy())
     }
-    _wrapper = shallow(<Counter {..._props} />)
+    _wrapper = shallow(<Game {..._props} />)
   })
 
   it('Should render as a <div>.', () => {
     expect(_wrapper.is('div')).to.equal(true)
   })
 
-  it('Should render with an <h2> that includes Sample Counter text.', () => {
-    expect(_wrapper.find('h2').text()).to.match(/Counter:/)
+  it('Should render with an <h2> that includes Sample Game text.', () => {
+    expect(_wrapper.find('h2').text()).to.match(/Game:/)
   })
 
-  it('Should render props.counter at the end of the sample counter <h2>.', () => {
+  it('Should render props.game at the end of the sample game <h2>.', () => {
     expect(_wrapper.find('h2').text()).to.match(/5$/)
-    _wrapper.setProps({ counter: 8 })
+    _wrapper.setProps({ game: 8 })
     expect(_wrapper.find('h2').text()).to.match(/8$/)
   })
 

@@ -1,7 +1,8 @@
 import React from 'react'
 import { IndexLink, Link } from 'react-router'
+import { Tabs, Tab } from 'material-ui/Tabs'
 
-import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar';
+import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 
 import './Header.scss'
 
@@ -10,16 +11,10 @@ const style = {
     color: 'white',
     marginLeft: 16,
   },
-  headerTitleIcon: {
-    color: '#4AACDC',
-    height: '100%',
-    width: 40,
-    marginLeft: 30,
-  },
   pageHeader: {
-    backgroundColor: '#007CB1',
+    backgroundColor: 'bisque',
   },
-};
+}
 
 export const Header = () => (
   <div>
@@ -28,13 +23,10 @@ export const Header = () => (
         <ToolbarTitle style={style.headerTitle} text="TEST" />
       </ToolbarGroup>
     </Toolbar>
-    <IndexLink to='/' activeClassName='route--active'>
-      Home
-    </IndexLink>
-    {' · '}
-    <Link to='/counter' activeClassName='route--active'>
-      Counter
-    </Link>
+    <Tabs>
+      <Tab label="Game" containerElement={<IndexLink to='/' activeClassName='route--active' />} />
+      <Tab label="Result" containerElement={<Link to='/result' activeClassName='route--active' />} />
+    </Tabs>
   </div>
 )
 

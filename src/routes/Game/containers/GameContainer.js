@@ -1,16 +1,16 @@
 import { connect } from 'react-redux'
-import { startGame, nextWord, guessWord, getResult } from '../modules/counter'
+import { startGame, nextWord, guessWord, getResult } from '../modules/game'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
     wiring in the actions and state necessary to render a presentational
-    component - in this case, the counter:   */
+    component - in this case, the Game:   */
 
-import Counter from '../components/Counter'
+import Game from '../components/Game'
 
 /*  Object of action creators (can also be function that returns object).
     Keys will be passed as props to presentational components. Here we are
-    implementing our wrapper around increment; the component doesn't care   */
+    implementing our wrapper around increment the component doesn't care   */
 
 const mapDispatchToProps = {
   startGame,
@@ -19,18 +19,20 @@ const mapDispatchToProps = {
   getResult
 }
 
-const mapStateToProps = (state) => ({
-  playerId : state.playerId || '',
-  words: state.counter
-})
+const mapStateToProps = (state) => {
+  return {
+    playerId: state.playerId || '',
+    words: state.game
+  }
+}
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
 
     import { createSelector } from 'reselect'
-    const counter = (state) => state.counter
-    const tripleCount = createSelector(counter, (count) => count * 3)
+    const game = (state) => state.game
+    const tripleCount = createSelector(game, (count) => count * 3)
     const mapStateToProps = (state) => ({
-      counter: tripleCount(state)
+      game: tripleCount(state)
     })
 
     Selectors can compute derived data, allowing Redux to store the minimal possible state.
@@ -38,4 +40,4 @@ const mapStateToProps = (state) => ({
     Selectors are composable. They can be used as input to other selectors.
     https://github.com/reactjs/reselect    */
 
-export default connect(mapStateToProps, mapDispatchToProps)(Counter)
+export default connect(mapStateToProps, mapDispatchToProps)(Game)
