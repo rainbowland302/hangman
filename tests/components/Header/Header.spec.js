@@ -25,10 +25,10 @@ describe('(Component) Header', () => {
       )).to.be.true
     })
 
-    it('Should render a Link to Counter route', () => {
+    it('Should render a Link to Game route', () => {
       expect(_wrapper.contains(
-        <Link activeClassName='route--active' to='/counter'>
-          Counter
+        <Link activeClassName='route--active' to='/game'>
+          Game
         </Link>
       )).to.be.true
     })
