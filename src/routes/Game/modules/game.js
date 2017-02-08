@@ -2,6 +2,7 @@ import { createAction } from 'redux-actions'
 
 //const url = 'http://www.domain-name.com/game/on'
 const url = 'http://localhost:3003/api/'
+const GUESS_NUMBER = 80
 
 const gameFetch = async function (payload, route) {
   const response = await fetch(url + route, {
@@ -64,15 +65,23 @@ export const getResult = createAction(GET_RESULT, async sessionId => {
   return result
 })
 
-export const autoPlay = createAction(AUTO_PLAY, async () => {
-
-})
+// Thunk is not compatible with redux-actions
+// redux-action always set the returned function as payload of action ojbect.
+export const autoPlay = async function () {
+  return async dispatch => {
+    for (let i = 0; i < GUESS_NUMBER; i++) {
+      await dispatch(nextWord({}))
+      await dispatch(guessWord({}))
+    }
+  }
+}
 
 export const actions = {
   startGame,
   nextWord,
   guessWord,
-  getResult
+  getResult,
+  autoPlay
 }
 
 // ------------------------------------
@@ -89,6 +98,5 @@ const ACTION_HANDLERS = {
 const initialState = []
 export default function gameReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
-  console.log(state)
   return handler ? handler(state, action) : state
 }

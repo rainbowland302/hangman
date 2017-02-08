@@ -9,7 +9,7 @@ export default (initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [thunk, promise]
+  const middleware = [promise, thunk]
 
   // ======================================================
   // Store Enhancers
