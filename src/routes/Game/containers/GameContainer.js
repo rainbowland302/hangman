@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { startGame, nextWord, guessWord, getResult } from '../modules/game'
+import { startGame, nextWord, guessWord, getResult, autoPlay } from '../modules/game'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -16,7 +16,8 @@ const mapDispatchToProps = {
   startGame,
   nextWord,
   guessWord,
-  getResult
+  getResult,
+  autoPlay
 }
 
 const mapStateToProps = (state) => {

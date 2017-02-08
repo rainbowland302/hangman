@@ -26,6 +26,10 @@ export const Game = (props) => (
         label="Get Result"
         onClick={props.getResult}
         />
+      <RaisedButton
+        label="Auto Play"
+        onClick={props.autoPlay}
+        />
     </Row>
     <WordChip words={props.words} />
   </div>
@@ -37,6 +41,7 @@ Game.propTypes = {
   nextWord: React.PropTypes.func.isRequired,
   guessWord: React.PropTypes.func.isRequired,
   getResult: React.PropTypes.func.isRequired,
+  autoPlay: React.PropTypes.func.isRequired,
   words: React.PropTypes.array.isRequired
 }
 
