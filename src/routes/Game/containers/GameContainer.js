@@ -12,6 +12,7 @@ import Game from '../components/Game'
     Keys will be passed as props to presentational components. Here we are
     implementing our wrapper around increment the component doesn't care   */
 
+// mapDispatchToProps (dispatch, ownProps)
 const mapDispatchToProps = {
   startGame,
   nextWord,
@@ -20,6 +21,10 @@ const mapDispatchToProps = {
   autoPlay
 }
 
+// store.subscribe to update component state
+// TODO Isolate which parts of the overall state this component needs as its props.Skip re-rendering
+// Use Selectors for Calculated State and Decoupling
+// mapStateToProps (state, ownProps )
 const mapStateToProps = (state) => {
   return {
     playerId: state.playerId || '',
@@ -41,4 +46,4 @@ const mapStateToProps = (state) => {
     Selectors are composable. They can be used as input to other selectors.
     https://github.com/reactjs/reselect    */
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game)
+export default connect(mapStateToProps, mapDispatchToProps)(Game) // merge props with its own props
