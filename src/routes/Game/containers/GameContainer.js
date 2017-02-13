@@ -27,8 +27,8 @@ const mapDispatchToProps = {
 // mapStateToProps (state, ownProps )
 const mapStateToProps = (state) => {
   return {
-    playerId: state.playerId || '',
-    words: state.game
+    playerId: state.playerId,
+    allIds: state.game.allIds
   }
 }
 

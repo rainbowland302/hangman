@@ -3,6 +3,7 @@ import { createAction } from 'redux-actions'
 //const url = 'http://www.domain-name.com/game/on'
 const url = 'http://localhost:3003/api/'
 const GUESS_NUMBER = 80
+let mock_id = 0
 
 const gameFetch = async function (payload, route) {
   const response = await fetch(url + route, {
@@ -88,14 +89,24 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [NEXT_WORD]: (state, action) => [...state, action.payload],
-  [GUESS_WORD]: (state, action) => [...state.slice(0, state.length - 1), action.payload]
+  [NEXT_WORD]: (state, action) => {
+    let newObj = { ...state }
+    mock_id++
+    newObj[mock_id] = action.payload
+    newObj.allIds = [...newObj.allIds, mock_id]
+    return newObj
+  },
+  [GUESS_WORD]: (state, action) => {
+    let newObj = { ...state }
+    newObj[mock_id] = action.payload
+    return newObj
+  }
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = []
+const initialState = {allIds: []}
 export default function gameReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state
