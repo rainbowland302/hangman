@@ -5,15 +5,13 @@ import IconDone from 'material-ui/svg-icons/action/done'
 import IconClose from 'material-ui/svg-icons/navigation/close'
 import { greenA400, redA100 } from 'material-ui/styles/colors'
 
+import { connect } from 'react-redux'
+
 import './WordChip.scss'
 
 const styles = {
   chip: {
     margin: 4
-  },
-  wrapper: {
-    display: 'flex',
-    flexWrap: 'wrap'
   }
 }
 
@@ -22,10 +20,10 @@ function checkWord(str) {
   return !reg.test(str)
 }
 
-function getWord(data) {
+function getWord(data, index) {
   let word = data.word
   return (
-    <Chip style={styles.chip}>
+    <Chip style={styles.chip} key={index}>
       {
         checkWord(word) ? <Avatar backgroundColor={greenA400} icon={<IconDone />} /> :
           <Avatar backgroundColor={redA100} icon={<IconClose />} />
@@ -36,11 +34,19 @@ function getWord(data) {
 }
 
 export const WordChip = (props) => {
-  return <div style={styles.wrapper}>{props.words.map(getWord)}</div>
+  return getWord(props.word, props.index)
 }
 
 WordChip.propTypes = {
-  words: React.PropTypes.array.isRequired
+  word: React.PropTypes.array.object,
+  index: React.PropTypes.array.number
 }
 
-export default WordChip
+const TargetView = connect(
+  (state, ownProps) => {
+    //can not add console.log(state) here
+    return { word: state.game[ownProps.targetId], index: ownProps.targetId }
+  }
+)(WordChip);
+
+export default TargetView
