@@ -1,0 +1,111 @@
+{
+  "front-version": "2.0.2",
+  "version": 3,
+  "nodes": [
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"sessionId\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpYXQiOjE0ODczMTIzNzcsImV4cCI6MTQ4OTkwNDM3N30.din4NB8yZmAUSdslFo2xWqWSuHdOMCB82ywDBa-etTk\",\n  \"action\" : \"guessWord\",\n  \"guess\": \"t\"\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3000",
+        "path": "/api/game"
+      },
+      "id": "A85CA3C2-5E8D-4EBC-86BE-F5EE9758FD11",
+      "lastModified": "2017-02-17T17:38:31.805+08:00",
+      "name": "guessWord",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {
+        "ownerId": "Local repository id"
+      }
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"sessionId\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpYXQiOjE0ODczMTIzNzcsImV4cCI6MTQ4OTkwNDM3N30.din4NB8yZmAUSdslFo2xWqWSuHdOMCB82ywDBa-etTk\",\n  \"action\" : \"nextWord\"\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3000",
+        "path": "/api/game"
+      },
+      "id": "7AD29BB6-2B45-4C6B-A3A6-49FA6B015BC9",
+      "lastModified": "2017-02-17T14:48:05.625+08:00",
+      "name": "nextWord",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {
+        "ownerId": "Local repository id"
+      }
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n  \"playerId\": \"test@example.com\",\n  \"action\" : \"startGame\"\n}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:3000",
+        "path": "/api/game"
+      },
+      "id": "5C8D51BA-6D50-4E31-9F42-6C2220E87042",
+      "lastModified": "2017-02-17T14:13:22.053+08:00",
+      "name": "startGame",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {
+        "ownerId": "Local repository id"
+      }
+    }
+  ]
+}
