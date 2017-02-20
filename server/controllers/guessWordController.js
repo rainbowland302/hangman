@@ -45,7 +45,7 @@ export default (req, res) => {
 
 // eg: handleWord('*e**', 'test', t)
 const handleWord = (result, word, guess) => {
-    const reg = new RegExp(guess, 'g')
+    const reg = new RegExp(guess, 'ig')
     while (reg.exec(word)) {
         result = result.substr(0, reg.lastIndex - 1) + guess + result.substr(reg.lastIndex);
     }
