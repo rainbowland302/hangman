@@ -1,113 +1,150 @@
 import { createAction } from 'redux-actions'
 
-//const url = 'http://www.domain-name.com/game/on'
-const url = 'http://localhost:3003/api/'
-const GUESS_NUMBER = 80
-let mock_id = 0
+import makeGuess from '../../../utilities/makeGuess'
 
-const gameFetch = async function (payload, route) {
-  const response = await fetch(url + route, {
-    method: 'GET',
-    header: {
-      'Content-Type': 'application/json'
-    },
-    //body: JSON.stringify(payload)
-  })
-  const res = await response.json()
-  return res
+const url = 'http://localhost:3000/api/game'
+const email = 'test@example.com'
+
+const ctrlStatus = {
+    sessionId: '',
+    curWord: '',
+    curTotalTimes: 0,
+    curWrongTimes: 0,
+    numberOfWordsToGuess: 0,
+    numberOfGuessAllowedForEachWord: 0
+}
+
+const gameFetch = async function(payload) {
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+    const res = await response.json()
+    updateControlStatus(ctrlStatus, payload.action, res)
+    return res.data
+}
+
+const updateControlStatus = (status, action, update) => {
+    switch (action) {
+        case START_GAME:
+            status.sessionId = update.sessionId
+            status.numberOfWordsToGuess = update.data.numberOfWordsToGuess
+            status.numberOfGuessAllowedForEachWord = update.data.numberOfGuessAllowedForEachWord
+            break
+        case GUESS_WORD:
+            status.curWrongTimes = update.data.wrongGuessCountOfCurrentWord
+            status.curTotalTimes += 1
+            break
+        case NEXT_WORD:
+            status.curWord = update.data.word
+            status.curWrongTimes = 0
+            status.curTotalTimes = 0
+            break
+        default:
+            break
+    }
 }
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const START_GAME = 'START_GAME'
-export const NEXT_WORD = 'NEXT_WORD'
-export const GUESS_WORD = 'GUESS_WORD'
-export const GET_RESULT = 'GET_RESULT'
-export const AUTO_PLAY = 'AUTO_PLAY'
+export const START_GAME = 'startGame'
+export const NEXT_WORD = 'nextWord'
+export const GUESS_WORD = 'guessWord'
+export const GET_RESULT = 'getResult'
+export const AUTO_PLAY = 'autoPlay'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const startGame = createAction(START_GAME, async playerID => {
-  const payload = {
-    playerId: playerID,
-    action: "startGame"
-  }
-  const result = await gameFetch(payload, 'start-game')
-  return result.data
+export const startGame = createAction(START_GAME, async () => {
+    const payload = {
+        playerId: email,
+        action: START_GAME
+    }
+    const result = await gameFetch(payload)
 })
 
-export const nextWord = createAction(NEXT_WORD, async sessionId => {
-  const payload = {
-    sessionId: sessionId,
-    action: 'nextWord'
-  }
-  const result = await gameFetch(payload, 'next-word')
-  return await result.data
+export const nextWord = createAction(NEXT_WORD, async() => {
+    const payload = {
+        sessionId: ctrlStatus.sessionId,
+        action: NEXT_WORD
+    }
+    const result = await gameFetch(payload)
+    return result
 })
 
-export const guessWord = createAction(GUESS_WORD, async ({guess, sessionId}) => {
-  const payload = {
-    sessionId: sessionId,
-    action: "guessWord",
-    guess: guess
-  }
-  const result = await gameFetch(payload, 'guess-word')
-  return result.data
+export const guessWord = createAction(GUESS_WORD, async(guess) => {
+    const payload = {
+        sessionId: ctrlStatus.sessionId,
+        action: GUESS_WORD,
+        guess: guess
+    }
+    const result = await gameFetch(payload)
+    return result
 })
 
 export const getResult = createAction(GET_RESULT, async sessionId => {
-  const payload = {
-    sessionId: sessionId,
-    action: "getResult",
-  }
-  const result = await gameFetch(payload, 'get-result')
-  return result
+    const payload = {
+        sessionId: ctrlStatus.sessionId,
+        action: GET_RESULT
+    }
+    const result = await gameFetch(payload)
+    return result
 })
 
 // Thunk is not compatible with redux-actions
 // redux-action always set the returned function as payload of action ojbect.
-export const autoPlay = async function () {
-  return async dispatch => {
-    for (let i = 0; i < GUESS_NUMBER; i++) {
-      await dispatch(nextWord({}))
-      await dispatch(guessWord({}))
+export const autoPlay = async function() {
+    return async dispatch => {
+        await dispatch(startGame())
+        while (ctrlStatus.numberOfWordsToGuess + 1) {
+            if (ctrlStatus.curWrongTimes >= ctrlStatus.numberOfGuessAllowedForEachWord || !/\*/.test(ctrlStatus.curWord)) {
+                await dispatch(nextWord())
+                ctrlStatus.numberOfWordsToGuess--
+            } else {
+                const guess = makeGuess(ctrlStatus.curWord, ctrlStatus.curTotalTimes)
+                await dispatch(guessWord(guess))
+            }
+        }
     }
-  }
 }
 
 export const actions = {
-  startGame,
-  nextWord,
-  guessWord,
-  getResult,
-  autoPlay
+    startGame,
+    nextWord,
+    guessWord,
+    getResult,
+    autoPlay
 }
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [NEXT_WORD]: (state, action) => {
-    let newObj = { ...state }
-    mock_id++
-    newObj[mock_id] = action.payload
-    newObj.allIds = [...newObj.allIds, mock_id]
-    return newObj
-  },
-  [GUESS_WORD]: (state, action) => {
-    let newObj = { ...state }
-    newObj[mock_id] = action.payload
-    return newObj
-  }
+    [NEXT_WORD]: (state, action) => {
+        const payload = action.payload
+        const newObj = {...state }
+        newObj[payload.totalWordCount] = payload.word
+        newObj.allIds = [...newObj.allIds, payload.totalWordCount]
+        return newObj
+    },
+    [GUESS_WORD]: (state, action) => {
+        const payload = action.payload
+        const newObj = {...state }
+        newObj[payload.totalWordCount] = payload.word
+        return newObj
+    }
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {allIds: []}
+const initialState = { allIds: [] }
 export default function gameReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-  return handler ? handler(state, action) : state
+    const handler = ACTION_HANDLERS[action.type]
+    return handler ? handler(state, action) : state
 }

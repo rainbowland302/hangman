@@ -14,7 +14,6 @@ const styles = {
 export const Game = (props) => {
   return (
     <div>
-      <h2>Player Id: {props.playerId}</h2>
       <Row>
         <RaisedButton
           label="Start Game"
@@ -47,7 +46,6 @@ export const Game = (props) => {
 }
 
 Game.propTypes = {
-  playerId: React.PropTypes.number.isRequired,
   startGame: React.PropTypes.func.isRequired,
   nextWord: React.PropTypes.func.isRequired,
   guessWord: React.PropTypes.func.isRequired,
