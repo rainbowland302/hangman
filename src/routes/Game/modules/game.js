@@ -33,15 +33,16 @@ const updateControlStatus = (status, action, update) => {
             status.sessionId = update.sessionId
             status.numberOfWordsToGuess = update.data.numberOfWordsToGuess
             status.numberOfGuessAllowedForEachWord = update.data.numberOfGuessAllowedForEachWord
+            status.curWord = ''
+            status.curWrongTimes = 0
             break
         case GUESS_WORD:
+            status.curWord = update.data.word
             status.curWrongTimes = update.data.wrongGuessCountOfCurrentWord
-            status.curTotalTimes += 1
             break
         case NEXT_WORD:
             status.curWord = update.data.word
             status.curWrongTimes = 0
-            status.curTotalTimes = 0
             break
         default:
             break
@@ -55,12 +56,13 @@ export const START_GAME = 'startGame'
 export const NEXT_WORD = 'nextWord'
 export const GUESS_WORD = 'guessWord'
 export const GET_RESULT = 'getResult'
+export const CLEAR_ALL = 'clearAll'
 export const AUTO_PLAY = 'autoPlay'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const startGame = createAction(START_GAME, async () => {
+export const startGame = createAction(START_GAME, async() => {
     const payload = {
         playerId: email,
         action: START_GAME
@@ -87,6 +89,8 @@ export const guessWord = createAction(GUESS_WORD, async(guess) => {
     return result
 })
 
+export const clearAll = createAction(CLEAR_ALL)
+
 export const getResult = createAction(GET_RESULT, async sessionId => {
     const payload = {
         sessionId: ctrlStatus.sessionId,
@@ -100,13 +104,14 @@ export const getResult = createAction(GET_RESULT, async sessionId => {
 // redux-action always set the returned function as payload of action ojbect.
 export const autoPlay = async function() {
     return async dispatch => {
+        dispatch(clearAll())
         await dispatch(startGame())
         while (ctrlStatus.numberOfWordsToGuess + 1) {
             if (ctrlStatus.curWrongTimes >= ctrlStatus.numberOfGuessAllowedForEachWord || !/\*/.test(ctrlStatus.curWord)) {
                 await dispatch(nextWord())
                 ctrlStatus.numberOfWordsToGuess--
             } else {
-                const guess = makeGuess(ctrlStatus.curWord, ctrlStatus.curTotalTimes)
+                const guess = makeGuess(ctrlStatus.curWord, ctrlStatus.curWrongTimes)
                 await dispatch(guessWord(guess))
             }
         }
@@ -137,6 +142,9 @@ const ACTION_HANDLERS = {
         const newObj = {...state }
         newObj[payload.totalWordCount] = payload.word
         return newObj
+    },
+    [CLEAR_ALL]: (state, action) => {
+        return { allIds: [] }
     }
 }
 

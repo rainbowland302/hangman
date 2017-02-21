@@ -22,8 +22,6 @@ Response:
 export default (req, res) => {
     const body = req.body
     const playerId = body.playerId
-    console.log(body)
-    console.log(req)
     if (validateEmail(playerId)) {
         const sessionId = jwt.sign({ email: playerId }, config.secret, {
             expiresIn: 60 * 60 * 24 * 30 // expires in 30 days
