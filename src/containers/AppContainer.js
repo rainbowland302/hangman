@@ -26,7 +26,7 @@ class AppContainer extends Component {
               <Router history={browserHistory} children={routes} />
             </div>
           </MuiThemeProvider>
-          <DevTools />
+
         </div>
       </Provider>
     )

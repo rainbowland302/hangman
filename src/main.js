@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import createStore from './store/createStore'
 import AppContainer from './containers/AppContainer'
@@ -14,7 +15,7 @@ const store = createStore(initialState)
 // Render Setup
 // ========================================================
 const MOUNT_NODE = document.getElementById('root')
-
+injectTapEventPlugin();
 let render = () => {
   const routes = require('./routes/index').default(store)
 

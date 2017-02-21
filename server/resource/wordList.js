@@ -38,5 +38,7 @@ export default [
     "relife",
     "mother",
     "father",
-    "family"
+    "family",
+    "interesting",
+    "electronic"
 ]
