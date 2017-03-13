@@ -1,5 +1,5 @@
 // We only need to import the modules necessary for initial render
-import CoreLayout from '../layouts/CoreLayout'
+import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import ResultRoute from './Result'
 import GameRoute from './Game'
 

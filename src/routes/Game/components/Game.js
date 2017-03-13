@@ -2,18 +2,12 @@ import React from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Row, Col } from 'react-flexbox-grid'
 
-import WordChip from '../../../components/WordChip'
-
-const styles = {
-  wrapper: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  }
-}
+import './Game.scss'
+import WordChip from '../../../components/WordChip/WordChip'
 
 export const Game = (props) => {
   return (
-    <div>
+    <div className="game-wrapper">
       <Row>
         <RaisedButton
           label="Start Game"
@@ -38,7 +32,7 @@ export const Game = (props) => {
           onClick={props.autoPlay}
           />
       </Row>
-      <div style={styles.wrapper}>
+      <div className="row">
         {props.allIds.map((id) => <WordChip key={id} targetId={id} />)}
       </div>
     </div>

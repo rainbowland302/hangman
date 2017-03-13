@@ -1,0 +1,62 @@
+$feathers: 10;
+$color1: white;
+$color2: pink;
+$animation-duration: 1s;
+.start-wrapper {
+  position: relative;
+  top: 320px;
+  animation: bounce $animation-duration ease-in infinite;
+  z-index: 100;
+  @keyframes bounce {
+    50% {
+      transform: translateY(10px);
+    }
+  }
+}
+
+.wing {
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 40px);
+  width: 80px;
+  height: 100px;
+  transform: translate(-50%, -50%);
+  &:nth-child(2) {
+    transform: rotateY(180deg) translate(-50%, -50%);
+  }
+}
+
+.feather {
+  height: 100px;
+  width: 25px;
+  position: absolute;
+  border-bottom-right-radius: 100%;
+  border-top-left-radius: 100%;
+  transform-origin: top left;
+  background: linear-gradient(to bottom, $color1, $color2);
+  @for $i from 1 to $feathers+1 {
+    &:nth-of-type(#{$i}) {
+      @keyframes wave#{$i} {
+        50% {
+          transform: rotate(($i - 1) * 10deg) translateY($i * 2px);
+        }
+      }
+      transform: rotate(($i - 1) * 8deg) translateY($i * 0px);
+      animation: wave#{$i} $animation-duration infinite;
+      //transform: rotate(($i - 1) * 10deg) translateY($i * 2px);
+      height: 100px+($i * 5px);
+    }
+  }
+}
+
+.start-button {
+  margin: 0 auto;
+  text-align: center;
+  will-change: transform;
+  position: relative;
+  &>button {
+    background-color: aquamarine !important;
+    height: 80px !important;
+    width: 80px !important;
+  }
+}

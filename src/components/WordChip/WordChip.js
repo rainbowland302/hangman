@@ -1,19 +1,12 @@
 import React from 'react'
-import Avatar from 'material-ui/Avatar'
-import Chip from 'material-ui/Chip'
-import IconDone from 'material-ui/svg-icons/action/done'
-import IconClose from 'material-ui/svg-icons/navigation/close'
-import { greenA400, redA100 } from 'material-ui/styles/colors'
+import classNames from 'classnames';
+// import IconDone from 'material-ui/svg-icons/action/done'
+// import IconClose from 'material-ui/svg-icons/navigation/close'
+// import { greenA400, redA100 } from 'material-ui/styles/colors'
 
 import { connect } from 'react-redux'
 
 import './WordChip.scss'
-
-const styles = {
-    chip: {
-        margin: 4
-    }
-}
 
 function checkWord(str) {
     const reg = /\*/
@@ -21,18 +14,22 @@ function checkWord(str) {
 }
 
 function getWord(word, index) {
+    const isCorrect = checkWord(word)
+    const chipClass = classNames({
+      'chip-wrapper': true,
+      'correct': isCorrect,
+      'incorrect': !isCorrect
+    })
     return (
-      <Chip style={styles.chip} key={index}>
-        {
-          checkWord(word) ? <Avatar backgroundColor={greenA400} icon={<IconDone />} /> :
-            <Avatar backgroundColor={redA100} icon={<IconClose />} />
-        }
-        {word}
-      </Chip>
+      <div className="col-xs-6 col-md-4 col-lg-3" key={index}>
+        <div className={chipClass}>
+          {word}
+        </div>
+      </div>
     )
 }
 
-export const WordChip = (props) => {
+const WordChip = (props) => {
     return getWord(props.word, props.index)
 }
 

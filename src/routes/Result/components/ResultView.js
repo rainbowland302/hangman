@@ -1,5 +1,5 @@
 import React from 'react'
-import './ResultView.scss'
+//import './ResultView.scss'
 
 export const ResultView = () => (
   <div>
