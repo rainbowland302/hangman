@@ -2,9 +2,8 @@ import React from 'react'
 import { IndexLink, Link } from 'react-router'
 import { Tabs, Tab } from 'material-ui/Tabs'
 
-import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
-
 import './Header.scss'
+import WingButton from '../WingButton/WingButton'
 
 const style = {
   headerTitle: {
@@ -16,13 +15,11 @@ const style = {
   },
 }
 
-export const Header = () => (
+const Header = () => (
   <div>
-    <Toolbar style={style.pageHeader}>
-      <ToolbarGroup firstChild={true}>
-        <ToolbarTitle style={style.headerTitle} text="TEST" />
-      </ToolbarGroup>
-    </Toolbar>
+    <div className="header-wrapper">
+      <WingButton className="start-button"></WingButton>
+    </div>
     <Tabs>
       <Tab label="Game" containerElement={<IndexLink to='/' activeClassName='route--active' />} />
       <Tab label="Result" containerElement={<Link to='/result' activeClassName='route--active' />} />

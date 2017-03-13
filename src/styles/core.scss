@@ -1,6 +1,5 @@
 @import 'base';
 @import '~normalize.css/normalize';
-
 // Some best-practice CSS that's useful for most apps
 // Just remove them if they're not what you want
 html {
@@ -12,6 +11,8 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  //background-image: linear-gradient(rgba(200, 80, 90, .5) 50%, transparent 0), linear-gradient(90deg, rgba(200, 80, 90, .5) 50%, transparent 0);
+  background-size: 100px 100px;
 }
 
 *,

@@ -1,0 +1,18 @@
+.chip-wrapper {
+  border: 1px solid yellow;
+  height: 200px;
+  margin: 10px 5px;
+  border-radius: 10px;
+  border-width: 3px;
+  font-size: 30px;
+  font-family: cursive;
+  padding: 70px 0;
+}
+
+.correct {
+  border-color: #00E676;
+}
+
+.incorrect {
+  border-color: #FF8A80;
+}

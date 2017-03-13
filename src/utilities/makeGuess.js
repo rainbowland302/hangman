@@ -22,10 +22,12 @@ const frequencyMap = [
 ]
 
 let series = ''
+let relationSeries = ''
 let guessed = ''
+let preWrongTimes = 0
 
 const relationMap = {
-    '(l)\\*$': 'Y',
+    '(l|rr)\\*$': 'Y',
     '(t|c)\\*er': 'H',
     'e\\*e': 'LV',
     'sc\\*(e|i|o)': 'H',
@@ -34,27 +36,48 @@ const relationMap = {
     '^\\*a': 'F',
     'ea\\*': 'MF',
     '^(t|s|c)\\*(a|e|i|o|u|r)': 'H',
-    'i\\*\\*t$': 'GH'
+    'i\\*\\*t$': 'G',
+    'ig\\*t$': 'H',
+    '(a|i|e)n\\*$': 'GDK'
 }
 
 export default function makeGuess(word, wrongTimes) {
+
+    if (wrongTimes <= preWrongTimes) {
+        relationSeries = ''
+    }
+
     if (!/\w/.test(word) && !wrongTimes) {
         series = frequencyMap[word.length - 1]
         guessed = ''
     }
 
-    for (let key in relationMap) {
-        let reg = new RegExp(key, 'i')
-        if (reg.test(word)) {
-            series = relationMap[key] + series
+    if (!relationSeries) {
+        for (let key in relationMap) {
+            let reg = new RegExp(key, 'i')
+            if (reg.test(word)) {
+                relationSeries = relationMap[key] + relationSeries
+            }
         }
     }
 
-    while (guessed.includes(series[0])) {
+    if (relationSeries) {
+        while (guessed.includes(relationSeries[0]) && relationSeries[0]) {
+            relationSeries = relationSeries.substr(1, relationSeries.length)
+        }
+    }
+    if (relationSeries[0]) {
+        guessed += relationSeries[0]
+        relationSeries = relationSeries.substr(1, series.length)
+    } else {
+        while (guessed.includes(series[0])) {
+            series = series.substr(1, series.length)
+        }
+        guessed += series[0]
         series = series.substr(1, series.length)
     }
-    guessed += series[0]
-    series = series.substr(1, series.length)
+
+    preWrongTimes = wrongTimes
 
     return guessed[guessed.length - 1]
 }
