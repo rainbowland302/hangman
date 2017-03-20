@@ -1,4 +1,4 @@
 export default ({
-    "secret": "strikingly",
-    "database": "mongodb://localhost/hangman"
-});
+  "secret": "strikingly",
+  "database": "mongodb://localhost/hangman"
+})

@@ -18,22 +18,22 @@ Response:
 }
 */
 export default (req, res) => {
-    const body = req.body
-    const sessionId = body.sessionId
-    if (sessionId) {
-        Player.findOneAndUpdate({ sessionId: sessionId }, { $inc: { totalWordCount: 1 } }, (err, player) => {
-            player.save((err) => {
-                if (err) throw err
-                const curWordIndex = player.totalWordCount
-                res.json({
-                    sessionId: sessionId,
-                    data: {
-                        word: player.gameStatus[curWordIndex].result,
-                        totalWordCount: curWordIndex + 1,
-                        wrongGuessCountOfCurrentWord: player.gameStatus[curWordIndex].wrongTimes
-                    }
-                })
-            })
+  const body = req.body
+  const sessionId = body.sessionId
+  if (sessionId) {
+    Player.findOneAndUpdate({ sessionId: sessionId }, { $inc: { totalWordCount: 1 } }, (err, player) => {
+      player.save((err) => {
+        if (err) throw err
+        const curWordIndex = player.totalWordCount
+        res.json({
+          sessionId: sessionId,
+          data: {
+            word: player.gameStatus[curWordIndex].result,
+            totalWordCount: curWordIndex + 1,
+            wrongGuessCountOfCurrentWord: player.gameStatus[curWordIndex].wrongTimes
+          }
         })
-    }
+      })
+    })
+  }
 }
