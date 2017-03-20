@@ -41,11 +41,11 @@ app.use('/api', apiRoutes)
 
 // Error console
 app.listen(port, (error) => {
-    if (error) {
-        console.error(error)
-    } else {
-        console.info(`==> Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`)
-    }
+  if (error) {
+    console.error(error)
+  } else {
+    console.info(`==> Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`)
+  }
 })
 
 export default app

@@ -1,5 +1,5 @@
 import React from 'react'
-import classNames from 'classnames';
+import classNames from 'classnames'
 // import IconDone from 'material-ui/svg-icons/action/done'
 // import IconClose from 'material-ui/svg-icons/navigation/close'
 // import { greenA400, redA100 } from 'material-ui/styles/colors'
@@ -43,6 +43,6 @@ const TargetView = connect(
         //can not add console.log(state) here
         return { word: state.game[ownProps.targetId], index: ownProps.targetId }
     }
-)(WordChip);
+)(WordChip)
 
 export default TargetView
