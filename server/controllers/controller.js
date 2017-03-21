@@ -31,7 +31,7 @@ apiRoutes.get('/createTrain', (req, res) => {
   createTrain(req, res)
 })
 
-apiRoutes.get('/tellMe', (req, res) => {
+apiRoutes.post('/tellMe', (req, res) => {
   tellMe(req, res)
 })
 

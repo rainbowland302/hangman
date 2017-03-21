@@ -11,10 +11,10 @@ export default () => {
 const createTrainCollection = () => {
   fs.readFile('./server/resource/train.txt', 'utf8', (err, data) => {
     if (err) throw err
-    let wordList = data.split('\n')
+    const wordList = data.split('\n')
 
     console.log('start building train documents ')
-    let trainDocuments = buildTrainDocuments(wordList)
+    const trainDocuments = buildTrainDocuments(wordList)
     console.log('end building train documents')
 
     saveTrainDocuments(trainDocuments)
@@ -22,15 +22,15 @@ const createTrainCollection = () => {
 }
 
 const buildTrainDocuments = (wordList) => {
-  let trainDocuments = {}
+  const trainDocuments = {}
   for (let i = 0; i < wordList.length; i++) {
-    let word = wordList[i]
-    let length = word.length
+    const word = wordList[i]
+    const length = word.length
     trainDocuments[length] = trainDocuments[length] || []
       //new word Schema
-    let wordSchema = { word }
+    const wordSchema = { word }
     word.split('').forEach((letter) => {
-      wordSchema[letter] = true
+      wordSchema[letter] = 1
     })
 
     trainDocuments[length].push(wordSchema)
@@ -41,7 +41,7 @@ const buildTrainDocuments = (wordList) => {
 const saveTrainDocuments = (trainDocuments) => {
   for (let key in trainDocuments) {
     console.log(key + ' ' + trainDocuments[key].length)
-    let trainModel = new Train({
+    const trainModel = new Train({
       trainList: trainDocuments[key],
       wordLength: key
     })
