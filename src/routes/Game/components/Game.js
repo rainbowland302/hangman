@@ -33,7 +33,11 @@ export const Game = (props) => {
           />
       </Row>
       <div className="row">
-        {props.allIds.map((id) => <WordChip key={id} targetId={id} />)}
+        {
+          Array(props.totalWordCount)
+            .fill(true)
+            .map((m, index) => <WordChip key={index} targetId={index} />)
+        }
       </div>
     </div>
   )
@@ -45,7 +49,7 @@ Game.propTypes = {
   guessWord: React.PropTypes.func.isRequired,
   getResult: React.PropTypes.func.isRequired,
   autoPlay: React.PropTypes.func.isRequired,
-  allIds: React.PropTypes.array.isRequired,
+  totalWordCount: React.PropTypes.number.isRequired,
 }
 
 export default Game

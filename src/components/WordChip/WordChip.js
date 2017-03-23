@@ -41,7 +41,7 @@ WordChip.propTypes = {
 const TargetView = connect(
     (state, ownProps) => {
         //can not add console.log(state) here
-        return { word: state.game[ownProps.targetId], index: ownProps.targetId }
+        return { word: state.game.wordList[ownProps.targetId].word, index: ownProps.targetId }
     }
 )(WordChip)
 
