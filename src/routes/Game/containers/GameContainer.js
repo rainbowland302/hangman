@@ -27,7 +27,7 @@ const mapDispatchToProps = {
 // mapStateToProps (state, ownProps )
 const mapStateToProps = (state) => {
   return {
-    allIds: state.game.allIds
+    totalWordCount: state.game.totalWordCount || 0
   }
 }
 

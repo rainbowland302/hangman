@@ -2,56 +2,40 @@ import { createAction } from 'redux-actions'
 
 import makeGuess from '../../../utilities/makeGuess'
 
-const url = 'http://localhost:3000/api/game'
+const gameUrl = 'http://localhost:3000/api/game'
+const guessUrl = 'http://localhost:3000/api/tellme'
 const email = 'test@example.com'
-
-const ctrlStatus = {
-    sessionId: '',
-    curWord: '',
-    curTotalTimes: 0,
-    curWrongTimes: 0,
-    numberOfWordsToGuess: 0,
-    numberOfGuessAllowedForEachWord: 0
-}
+const numberOfGuessAllowedForEachWord = 10
+const numberOfWordsToGuess = 40
+let sessionId
 
 const gameFetch = async function(payload) {
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
+  const response = await fetch(gameUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  const res = await response.json()
+  sessionId = sessionId || res.sessionId
+  return res.data
+}
+
+const guessFetch = async function(payload) {
+    const response = await fetch(guessUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
     })
     const res = await response.json()
-    updateControlStatus(ctrlStatus, payload.action, res)
-    return res.data
-}
-
-const updateControlStatus = (status, action, update) => {
-    switch (action) {
-        case START_GAME:
-            status.sessionId = update.sessionId
-            status.numberOfWordsToGuess = update.data.numberOfWordsToGuess
-            status.numberOfGuessAllowedForEachWord = update.data.numberOfGuessAllowedForEachWord
-            status.curWord = ''
-            status.curWrongTimes = 0
-            break
-        case GUESS_WORD:
-            status.curWord = update.data.word
-            status.curWrongTimes = update.data.wrongGuessCountOfCurrentWord
-            break
-        case NEXT_WORD:
-            status.curWord = update.data.word
-            status.curWrongTimes = 0
-            break
-        default:
-            break
-    }
-}
-
-// ------------------------------------
-// Constants
-// ------------------------------------
+    return res.letter
+  }
+  // ------------------------------------
+  // Constants
+  // ------------------------------------
 export const START_GAME = 'startGame'
 export const NEXT_WORD = 'nextWord'
 export const GUESS_WORD = 'guessWord'
@@ -63,96 +47,130 @@ export const AUTO_PLAY = 'autoPlay'
 // Actions
 // ------------------------------------
 export const startGame = createAction(START_GAME, async() => {
-    const payload = {
-        playerId: email,
-        action: START_GAME
-    }
-    const result = await gameFetch(payload)
+  const payload = {
+    playerId: email,
+    action: START_GAME
+  }
+  const result = await gameFetch(payload)
 })
 
 export const nextWord = createAction(NEXT_WORD, async() => {
-    const payload = {
-        sessionId: ctrlStatus.sessionId,
-        action: NEXT_WORD
-    }
-    const result = await gameFetch(payload)
-    return result
+  const payload = {
+    sessionId: sessionId,
+    action: NEXT_WORD
+  }
+  const result = await gameFetch(payload)
+  return result
 })
 
-export const guessWord = createAction(GUESS_WORD, async(guess) => {
-    const payload = {
-        sessionId: ctrlStatus.sessionId,
-        action: GUESS_WORD,
-        guess: guess
-    }
-    const result = await gameFetch(payload)
-    return result
+export const guessWord = createAction(GUESS_WORD, async guess => {
+  const payload = {
+    sessionId: sessionId,
+    action: GUESS_WORD,
+    guess: guess
+  }
+  const result = await gameFetch(payload)
+  return {...result, guess }
 })
 
 export const clearAll = createAction(CLEAR_ALL)
 
-export const getResult = createAction(GET_RESULT, async sessionId => {
-    const payload = {
-        sessionId: ctrlStatus.sessionId,
-        action: GET_RESULT
-    }
-    const result = await gameFetch(payload)
-    return result
+export const getResult = createAction(GET_RESULT, async() => {
+  const payload = {
+    sessionId: sessionId,
+    action: GET_RESULT
+  }
+  const result = await gameFetch(payload)
+  return result
 })
 
 // Thunk is not compatible with redux-actions
 // redux-action always set the returned function as payload of action ojbect.
 export const autoPlay = async function() {
-    return async dispatch => {
-        dispatch(clearAll())
-        await dispatch(startGame())
-        while (ctrlStatus.numberOfWordsToGuess + 1) {
-            if (ctrlStatus.curWrongTimes >= ctrlStatus.numberOfGuessAllowedForEachWord || !/\*/.test(ctrlStatus.curWord)) {
-                await dispatch(nextWord())
-                ctrlStatus.numberOfWordsToGuess--
-            } else {
-                const guess = makeGuess(ctrlStatus.curWord, ctrlStatus.curWrongTimes)
-                await dispatch(guessWord(guess))
-            }
-        }
-    }
+  return async(dispatch, getState) => {
+    dispatch(clearAll())
+    await dispatch(startGame())
+    await dispatch(nextWord())
+    let wordList, totalWordCount
+    do {
+      wordList = getState().game.wordList
+      totalWordCount = getState().game.totalWordCount
+      console.log(wordList + ' ' + totalWordCount)
+      const { word, include, exclude } = wordList[totalWordCount - 1]
+        // ask for next word when word is correct or exceed wrong time allowed
+      if (word.indexOf('*') < 0 || exclude.length >= numberOfGuessAllowedForEachWord) {
+        await dispatch(nextWord())
+      } else {
+        const letter = await guessFetch({ length: word.length, include, exclude })
+        await dispatch(guessWord(letter))
+      }
+    } while ((totalWordCount < numberOfWordsToGuess))
+  }
 }
 
+
 export const actions = {
-    startGame,
-    nextWord,
-    guessWord,
-    getResult,
-    autoPlay
+  startGame,
+  nextWord,
+  guessWord,
+  getResult,
+  autoPlay
 }
 
 // ------------------------------------
 // Action Handlers
+/*
+{
+  wordList: {
+    0: {
+      word: 'pl*y',
+      include: ['p', 'l', 'y'],
+      exclude: ['b', 'c']
+    }
+  }
+  totalWordCount : Number
+}
+*/
 // ------------------------------------
 const ACTION_HANDLERS = {
-    [NEXT_WORD]: (state, action) => {
-        const payload = action.payload
-        const newObj = {...state }
-        newObj[payload.totalWordCount] = payload.word
-        newObj.allIds = [...newObj.allIds, payload.totalWordCount]
-        return newObj
-    },
-    [GUESS_WORD]: (state, action) => {
-        const payload = action.payload
-        const newObj = {...state }
-        newObj[payload.totalWordCount] = payload.word
-        return newObj
-    },
-    [CLEAR_ALL]: (state, action) => {
-        return { allIds: [] }
+  [NEXT_WORD]: (state, action) => {
+    const { word, totalWordCount } = action.payload
+      // populate original wordList
+    const wordList = {...state.wordList }
+      // create a new word item
+    wordList[totalWordCount - 1] = {
+      word,
+      include: [],
+      exclude: []
     }
+    return { wordList, totalWordCount }
+  },
+  [GUESS_WORD]: (state, action) => {
+    const { word, totalWordCount, guess } = action.payload
+      // populate original wordList
+    const wordList = {...state.wordList }
+      // create a new word item based on the last one
+    const wordItem = {...wordList[totalWordCount - 1] }
+    if (word === wordItem.word) {
+      wordItem.exclude = [...wordItem.exclude, guess]
+    } else {
+      wordItem.include = [...wordItem.include, guess]
+      wordItem.word = word
+    }
+    // override the original last word item
+    wordList[totalWordCount - 1] = wordItem
+    return { wordList, totalWordCount }
+  },
+  [CLEAR_ALL]: (state, action) => {
+    return { totalWordCount: 0, wordList: {} }
+  }
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = { allIds: [] }
+const initialState = { totalWordCount: 0, wordList: {} }
 export default function gameReducer(state = initialState, action) {
-    const handler = ACTION_HANDLERS[action.type]
-    return handler ? handler(state, action) : state
+  const handler = ACTION_HANDLERS[action.type]
+  return handler ? handler(state, action) : state
 }
