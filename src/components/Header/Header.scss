@@ -4,7 +4,7 @@
 }
 
 .header-wrapper {
-  height: 800px;
+  height: 100vh;
   background: white;
   padding: 1em;
   border: 16px solid transparent;
@@ -12,7 +12,7 @@
   &::before {
     top: 10px;
     content: '';
-    height: 400px;
+    height: 50vh;
     width: 100%;
     background-color: gray;
     display: inline-block;
@@ -23,7 +23,7 @@
   &::after {
     top: 10px;
     content: '';
-    height: 400px;
+    height: 50vh;
     width: 100%;
     background-color: white;
     display: inline-block;

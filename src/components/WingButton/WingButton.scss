@@ -2,9 +2,11 @@ $feathers: 10;
 $color1: white;
 $color2: pink;
 $animation-duration: 1s;
+$icon-size: 80px;
+
 .start-wrapper {
   position: relative;
-  top: 320px;
+  top: calc(50% - 40px);
   animation: bounce $animation-duration ease-in infinite;
   z-index: 100;
   @keyframes bounce {
@@ -54,9 +56,13 @@ $animation-duration: 1s;
   text-align: center;
   will-change: transform;
   position: relative;
-  &>button {
+  &>button, &>a {
     background-color: aquamarine !important;
-    height: 80px !important;
-    width: 80px !important;
+    height: $icon-size !important;
+    width: $icon-size !important;
+  }
+  .power-icon {
+    height: $icon-size !important;
+    line-height: $icon-size !important;
   }
 }
