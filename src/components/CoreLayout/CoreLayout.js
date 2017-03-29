@@ -1,12 +1,11 @@
 import React from 'react'
-import Header from '../../components/Header/Header'
-import './CoreLayout.scss'
+import Header from '../Header/Header'
 import '../../styles/core.scss'
 
 const CoreLayout = ({ children }) => (
   <div className='text-center'>
     <Header />
-    <div className='core-layout__viewport'>
+    <div>
       {children}
     </div>
   </div>
