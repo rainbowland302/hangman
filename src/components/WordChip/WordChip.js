@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
 
 import './WordChip.scss';
 
@@ -9,7 +8,8 @@ function checkWord(str) {
     return !reg.test(str);
 }
 
-function getWord(word, index) {
+function getWord(wordItem, targetId) {
+    const {word, include, exclude} = wordItem;
     const isCorrect = checkWord(word);
     const chipClass = classNames({
       'chip-wrapper': true,
@@ -17,28 +17,23 @@ function getWord(word, index) {
       'incorrect': !isCorrect
     });
     return (
-      <div className="col-xs-4 col-md-3 col-lg-2" key={index}>
+      <div className="col-xs-4 col-md-3 col-lg-2" key={targetId}>
         <div className={chipClass}>
-          {word}
+          <div>{word}</div>
+          <div className='include'>{include}</div>
+          <div className='exclude'>{exclude}</div>
         </div>
       </div>
     );
 }
 
 const WordChip = (props) => {
-    return getWord(props.word, props.index);
+    return getWord(props.wordItem, props.targetId);
 };
 
 WordChip.propTypes = {
-    word: React.PropTypes.string,
-    index: React.PropTypes.number
+    wordItem: React.PropTypes.object,
+    targetId: React.PropTypes.number
 };
 
-const TargetView = connect(
-    (state, ownProps) => {
-        //can not add console.log(state) here
-        return { word: state.game.wordList[ownProps.targetId].word, index: ownProps.targetId };
-    }
-)(WordChip);
-
-export default TargetView;
+export default WordChip;

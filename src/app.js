@@ -38,7 +38,7 @@ let render = () => {
                     }
             />
         </MuiThemeProvider>
-        <DevTools />
+
       </div>
     </Provider>,
     MOUNT_NODE

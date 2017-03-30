@@ -1,13 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Power from 'material-ui/svg-icons/action/power-settings-new';
 
-import { autoPlay } from '../../actions/autoPlayAction';
 import './WingButton.scss';
 
 const WingButton = (props) => (
-  <div className="start-wrapper" onClick={props.autoPlay}>
+  <div className="start-wrapper" onClick={props.onClick}>
     {getWings()}
     <FloatingActionButton className="start-button" href="#game">
       <Power className="power-icon" />
@@ -32,9 +30,7 @@ const getFeathers = () => {
 }
 
 WingButton.propTypes = {
-    autoPlay: React.PropTypes.func.isRequired
-};
+  onClick: React.PropTypes.func.isRequired
+}
 
-const TargetView = connect(()=>({}), {autoPlay})(WingButton); // merge props with its own props
-
-export default TargetView;
+export default WingButton;

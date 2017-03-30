@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 
 import './GameWrapper.scss';
-import WordChip from '../WordChip/WordChip';
+import WordChipContainer from '../../containers/WordChipContainer';
 
 export const GameWrapper = (props) => {
   return (
@@ -12,7 +12,7 @@ export const GameWrapper = (props) => {
         {
           Array(props.totalWordCount)
             .fill(true)
-            .map((m, index) => <WordChip key={index} targetId={index} />)
+            .map((m, index) => <WordChipContainer key={index} targetId={index} />)
         }
       </div>
     </div>

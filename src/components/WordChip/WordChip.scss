@@ -1,3 +1,6 @@
+$correct-color: #00E676;
+$incorrect-color: #FF8A80;
+
 .chip-wrapper {
   border: 1px solid yellow;
   height: 100px;
@@ -6,12 +9,20 @@
   border-width: 3px;
   font-size: 26px;
   font-family: cursive;
+  .include {
+    color: $correct-color;
+    font-size: 16px;
+  }
+  .exclude {
+    color: $incorrect-color;
+    font-size: 16px;
+  }
 }
 
 .correct {
-  border-color: #00E676;
+  border-color: $correct-color
 }
 
 .incorrect {
-  border-color: #FF8A80;
+  border-color: $incorrect-color;
 }
