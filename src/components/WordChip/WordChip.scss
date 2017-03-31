@@ -2,11 +2,10 @@ $correct-color: #00E676;
 $incorrect-color: #FF8A80;
 
 .chip-wrapper {
-  border: 1px solid yellow;
+  border: 3px solid yellow;
   height: 100px;
   margin: 10px 5px;
   border-radius: 10px;
-  border-width: 3px;
   font-size: 26px;
   font-family: cursive;
   .include {
@@ -20,9 +19,35 @@ $incorrect-color: #FF8A80;
 }
 
 .correct {
-  border-color: $correct-color
+  border-color: $correct-color;
 }
 
 .incorrect {
   border-color: $incorrect-color;
+}
+
+.chip-wrapper  {
+  position: relative;
+  clip-path: polygon(0 0, 85% 0, 100% 15%, 100% 100%, 0 100%);
+}
+
+.chip-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: calc(85% + 3px);
+  bottom: 85%;
+  border-bottom-left-radius: 10px;
+  box-shadow: -.2em .2em .3em -.1em rgba(0, 0, 0, .15);
+  background: linear-gradient(to left bottom, transparent 50%, rgba(0,0,0,.1) 0) 100% 0 no-repeat;
+}
+
+.chip-wrapper.incorrect::before {
+  border-left: 3px solid $incorrect-color;
+  border-bottom: 3px solid $incorrect-color;
+}
+.chip-wrapper.correct::before {
+  border-left: 3px solid $correct-color;
+  border-bottom: 3px solid $correct-color;
 }
