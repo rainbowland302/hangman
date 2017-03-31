@@ -1,17 +1,26 @@
 import React from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Power from 'material-ui/svg-icons/action/power-settings-new';
+import { Link, Events } from 'react-scroll';
 
 import './WingButton.scss';
 
-const WingButton = (props) => (
-  <div className="start-wrapper" onClick={props.onClick}>
-    {getWings()}
-    <FloatingActionButton className="start-button" href="#game">
-      <Power className="power-icon" />
-    </FloatingActionButton>
-  </div>
-);
+const WingButton = (props) => {
+  Events.scrollEvent.register('end', () => {
+      props.onClick();
+  });
+  return (
+    <div className="start-wrapper">
+      {getWings()}
+      <Link to="gameContainer" smooth={true}>
+        <FloatingActionButton className="start-button">
+          <Power className="power-icon" />
+        </FloatingActionButton>
+      </Link>
+    </div>
+  );
+}
+
 
 const getWings = () => {
   let wings = [];

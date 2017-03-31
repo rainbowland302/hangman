@@ -56,7 +56,7 @@ $icon-size: 80px;
   text-align: center;
   will-change: transform;
   position: relative;
-  &>button, &>a {
+  &>button {
     background-color: aquamarine !important;
     height: $icon-size !important;
     width: $icon-size !important;
