@@ -8,6 +8,8 @@ $incorrect-color: #FF8A80;
   border-radius: 10px;
   font-size: 26px;
   font-family: cursive;
+  position: relative;
+  clip-path: polygon(0 0, 85% 0, 100% 15%, 100% 100%, 0 100%);
   .include {
     color: $correct-color;
     font-size: 16px;
@@ -24,11 +26,6 @@ $incorrect-color: #FF8A80;
 
 .incorrect {
   border-color: $incorrect-color;
-}
-
-.chip-wrapper  {
-  position: relative;
-  clip-path: polygon(0 0, 85% 0, 100% 15%, 100% 100%, 0 100%);
 }
 
 .chip-wrapper::before {
