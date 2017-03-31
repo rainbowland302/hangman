@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { browserHistory, Router, applyRouterMiddleware } from 'react-router';
+import { browserHistory, Router } from 'react-router';
 import { Provider } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { useScroll } from 'react-router-scroll';
 
 import DevTools from './containers/DevTools'; //TODO: May separate in PROD
 import createStore from './store';
@@ -33,9 +32,6 @@ let render = () => {
         <MuiThemeProvider>
             <Router history={browserHistory}
                     routes={rootRoute}
-                    render={
-                      applyRouterMiddleware(useScroll())
-                    }
             />
         </MuiThemeProvider>
 

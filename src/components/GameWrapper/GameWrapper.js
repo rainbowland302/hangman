@@ -6,8 +6,7 @@ import WordChipContainer from '../../containers/WordChipContainer';
 
 export const GameWrapper = (props) => {
   return (
-    <div className="game-wrapper">
-      <a className="section-anchor" name="GameWrapper"></a>
+    <div id="gameContainer" className="game-wrapper">
       <div className="row">
         {
           Array(props.totalWordCount)
