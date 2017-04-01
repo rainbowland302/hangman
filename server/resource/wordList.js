@@ -35,7 +35,7 @@ export default [
   "inform",
   "showtime",
   "believe",
-  "relife",
+  "relief",
   "mother",
   "father",
   "family",

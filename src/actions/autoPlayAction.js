@@ -18,9 +18,16 @@ export const autoPlay = async function() {
       if (word.indexOf('*') < 0 || exclude.length >= numberOfGuessAllowedForEachWord) {
         await dispatch(nextWord(sessionId));
       } else {
-        const letter = await guessFetch({ length: word.length, include, exclude });
+        const payload = { length: word.length, include, exclude };
+        // Only add position info when the number of * is less than 1/3 of the word length
+        if (word.length / getNumberOf(word, '*') >= 3) payload.position = word.lastIndexOf('*') + 1;
+        const letter = await guessFetch(payload);
         await dispatch(guessWord(sessionId, letter));
       }
     } while ((totalWordCount < numberOfWordsToGuess))
   };
 };
+
+const getNumberOf = (str, char) => {
+  return str.split('').filter(c => c === char).length;
+}
