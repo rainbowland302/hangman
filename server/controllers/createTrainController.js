@@ -1,53 +1,53 @@
-import Express from 'express'
-import fs from 'fs'
-import mongoose, { Schema } from 'mongoose'
+import Express from 'express';
+import fs from 'fs';
+import mongoose, { Schema } from 'mongoose';
 
-import Train from '../models/Train'
+import Train from '../models/Train';
 
 export default () => {
-  createTrainCollection()
+  createTrainCollection();
 }
 
 const createTrainCollection = () => {
   fs.readFile('./server/resource/train.txt', 'utf8', (err, data) => {
-    if (err) throw err
-    const wordList = data.split('\n')
+    if (err) throw err;
+    const wordList = data.split('\n');
 
-    console.log('start building train documents ')
-    const trainDocuments = buildTrainDocuments(wordList)
-    console.log('end building train documents')
+    console.log('start building train documents ');
+    const trainDocuments = buildTrainDocuments(wordList);
+    console.log('end building train documents');
 
-    saveTrainDocuments(trainDocuments)
+    saveTrainDocuments(trainDocuments);
   })
-}
+};
 
 const buildTrainDocuments = (wordList) => {
-  const trainDocuments = {}
+  const trainDocuments = {};
   for (let i = 0; i < wordList.length; i++) {
-    const word = wordList[i]
-    const length = word.length
-    trainDocuments[length] = trainDocuments[length] || []
+    const word = wordList[i];
+    const length = word.length;
+    trainDocuments[length] = trainDocuments[length] || [];
       //new word Schema
-    const wordSchema = { word }
-    word.split('').forEach((letter) => {
-      wordSchema[letter] = 1
-    })
+    const wordSchema = { word };
+    word.split('').forEach((letter, index) => {
+      wordSchema[letter] = index + 1;
+    });
 
-    trainDocuments[length].push(wordSchema)
+    trainDocuments[length].push(wordSchema);
   }
-  return trainDocuments
+  return trainDocuments;
 }
 
 const saveTrainDocuments = (trainDocuments) => {
   for (let key in trainDocuments) {
-    console.log(key + ' ' + trainDocuments[key].length)
+    console.log(key + ' ' + trainDocuments[key].length);
     const trainModel = new Train({
       trainList: trainDocuments[key],
       wordLength: key
-    })
+    });
     trainModel.save(err => {
       if (err) throw err
       console.log('save')
-    })
+    });
   }
-}
+};
