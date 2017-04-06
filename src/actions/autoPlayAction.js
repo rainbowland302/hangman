@@ -6,7 +6,9 @@ import { guessFetch } from '../utils/request';
 export const autoPlay = async function() {
   return async(dispatch, getState) => {
     dispatch(clearAll());
-    await dispatch(startGame());
+    console.log('start');
+    const email = getState().global.email;
+    await dispatch(startGame(email));
     const { sessionId, numberOfWordsToGuess, numberOfGuessAllowedForEachWord } = getState().global;
     await dispatch(nextWord(sessionId));
     let wordList, totalWordCount;
