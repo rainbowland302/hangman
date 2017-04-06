@@ -3,12 +3,8 @@ $color1: white;
 $color2: pink;
 $animation-duration: 1s;
 $icon-size: 80px;
-
 .start-wrapper {
-  position: relative;
-  top: calc(50% - 40px);
   animation: bounce $animation-duration ease-in infinite;
-  z-index: 100;
   @keyframes bounce {
     50% {
       transform: translateY(10px);

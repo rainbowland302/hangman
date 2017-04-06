@@ -1,0 +1,13 @@
+.field-wrapper {
+  padding: 10px 20px;
+  >div {
+    font-size: 26px !important;
+    font-family: cursive !important;
+  }
+  .field-input>input {
+    text-align: center;
+  }
+  .field-view {
+    padding-top: 6px;
+  }
+}

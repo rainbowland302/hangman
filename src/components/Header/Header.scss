@@ -1,34 +1,36 @@
-.route--active {
-  font-weight: bold;
-  text-decoration: underline;
-}
-
+// header wrapper background as envelop
 .header-wrapper {
   height: 100vh;
   background: white;
   padding: 1em;
   border: 16px solid transparent;
   border-image: 16 repeating-linear-gradient(-45deg, red 0, red 1em, transparent 0, transparent 2em, #58a 0, #58a 3em, transparent 0, transparent 4em);
-  &::before {
-    top: 10px;
-    content: '';
-    height: 50vh;
-    width: 100%;
-    background-color: gray;
-    display: inline-block;
-    position: absolute;
-    left: 0;
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
-  }
+  &::before,
   &::after {
     top: 10px;
     content: '';
     height: 50vh;
     width: 100%;
-    background-color: white;
     display: inline-block;
     position: absolute;
     left: 0;
+  }
+  &::before {
+    background-color: gray;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+  &::after {
+    background-color: white;
     clip-path: polygon(3px 0, calc(100% - 3px) 0, 50% calc(100% - 3px));
+  }
+  // layout of header conent
+  .start-wrapper {
+    position: relative;
+    top: calc(50% - 40px);
+    z-index: 100;
+  }
+  .field-wrapper {
+    position: relative;
+    top: calc(50% + 80px);
   }
 }

@@ -3,9 +3,7 @@ import { createAction } from 'redux-actions';
 import * as type from './actionTypes';
 import { gameFetch } from '../utils/request';
 
-const email = 'test@example.com';
-
-export const startGame = createAction(type.START_GAME, async() => {
+export const startGame = createAction(type.START_GAME, async email => {
   const payload = {
     playerId: email,
     action: type.START_GAME

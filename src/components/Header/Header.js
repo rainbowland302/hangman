@@ -1,18 +1,20 @@
 import React from 'react';
-import { IndexLink, Link } from 'react-router';
-import { Tabs, Tab } from 'material-ui/Tabs';
 
 import './Header.scss';
 import WingButton from '../WingButton/WingButton';
+import FieldEditor from '../FieldEditor/FieldEditor';
 
 const Header = (props) => (
   <div className="header-wrapper">
-    <WingButton className="start-button" onClick={props.autoPlay}></WingButton>
+    <WingButton onClick={props.autoPlay}></WingButton>
+    <FieldEditor value={props.email} onChange= {props.editEmail}></FieldEditor>
   </div>
 );
 
 Header.propTypes = {
-  autoPlay: React.PropTypes.func.isRequired
-}
+  autoPlay: React.PropTypes.func.isRequired,
+  editEmail: React.PropTypes.func.isRequired,
+  email: React.PropTypes.string.isRequired
+};
 
 export default Header;
