@@ -1,6 +1,4 @@
-import mongoose, { Schema } from 'mongoose'
-
-import wordList from '../resource/wordList'
+import mongoose, { Schema } from 'mongoose';
 
 // Sub document for Player
 const WordSchema = new Schema({
@@ -10,7 +8,7 @@ const WordSchema = new Schema({
     default: 0
   },
   result: String
-})
+});
 
 export default mongoose.model('Player', new Schema({
   email: String,
@@ -19,14 +17,5 @@ export default mongoose.model('Player', new Schema({
     type: Number,
     default: 0
   },
-  gameStatus: {
-    type: [WordSchema],
-    default: () => {
-      const res = []
-      wordList.forEach((word) => {
-        res.push({ word: word, result: word.replace(/\w/g, '*') })
-      })
-      return res
-    }
-  }
-}))
+  gameStatus: [WordSchema]
+}));
