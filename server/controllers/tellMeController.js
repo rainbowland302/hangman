@@ -67,8 +67,11 @@ const getMatchQuery = ({ include, exclude }) => {
 };
 /*
   {
-    'trainList.a': { $gt: 0 },
-    'trainList.b': 0
+     $cond: [{ $eq: ['$trainList.a', position] }, 1, 0],
+  }
+  or
+  {
+    $cond: [{ $gt: ['$trainList.a', position] }, 1, 0]
   }
 */
 // depends on whether front-end has position in payload
