@@ -9,6 +9,11 @@ This repo uses [React Redux Starter Kit](https://github.com/davezuko/react-redux
 
 ## Getting Started
 
+1. npm i & npm start
+2. start MongoDB
+3. Create training set: `curl http://localhost:3000/api/createTrain`
+4. Open up http://localhost:3000/ in your browser
+
 ## Application Structure
 
 The application structure is grouped primarily by file type rather than feature.
@@ -25,8 +30,8 @@ The application structure is grouped primarily by file type rather than feature.
 │   │   └── tellMeController.js           # /api/tellMe
 │   ├── models                            # MongoDB Dcoument Schema
 │   │   ├── Player.js                     # Document for every game player
-│   │   ├── Train.js                      # Document for train collection
-│   ├── resources                         # Train Collection
+│   │   ├── Train.js                      # Document for training set
+│   ├── resources                         # Training Set
 │   └── server.js                         # Server application entry point
 └── src                                   # Application source code
     ├── index.html                        # Main HTML page container for app
@@ -61,4 +66,25 @@ The application structure is grouped primarily by file type rather than feature.
     │   └── request.js                    # Async fetch request for getting the Q&A
     └── styles                            # Application-wide styles (generally settings)
 ```
+
 ## Algorithm
+
+* Create a training set which records position of its contained letters respectively.
+    * Words with same length will be in the same document.
+    * If the word contains repeat letter, record the last index.
+    * 0 stands for inexistence
+* Request `/api/tellMe` for a letter with following payload:
+```
+    {
+        "include":  ["a", "b"],
+        "exclude" : ["c", "d"],
+        "length": 5
+        "position":  1 //first letter, optional
+    }
+```
+* Aggregate query
+    1. match the length
+    2. match the include & exclude conditions
+    3. project with condition from a-z
+    4. group with the sum from a-z
+    5. response with the most possible letter
