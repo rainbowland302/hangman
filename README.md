@@ -88,3 +88,6 @@ The application structure is grouped primarily by file type rather than feature.
     3. project with condition from a-z
     4. group with the sum from a-z
     5. response with the most possible letter
+
+## Demo
+![demo](https://cloud.githubusercontent.com/assets/6778864/24850135/6d40acca-1e01-11e7-8770-c5c032e2f901.gif)
